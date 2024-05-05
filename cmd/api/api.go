@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/dev-by-sjb/e-commerce-go-api/cmd/service/user"
 	"github.com/go-chi/chi"
 )
 
@@ -26,6 +27,10 @@ func (s *APIServer) Start() error {
 	var subrouter *chi.Mux = chi.NewRouter()
 
 	router.Mount("/api/v1", subrouter) // create sub routing with prefix pat pattern
+
+	// Add user services that takes in the subrouter
+	var userService = user.NewHandler()
+	userService.RegisterRoutes(subrouter)
 
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%v", s.addr),
