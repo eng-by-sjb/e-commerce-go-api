@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	db, err := db.NewPostgresStorage(db.DBConfig{
+	db, err := db.NewPostgresStorage(db.Config{
 		DBHost:     config.Envs.DBHost,
 		DBPort:     config.Envs.DBPort,
 		DBUser:     config.Envs.DBUser,
@@ -20,7 +20,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	server := api.NewAPIServer("3000", db)
+	server := api.NewAPIServer(config.Envs.ServerPort, db)
 
 	if err := server.Start(); err != nil {
 		log.Fatal(err)
