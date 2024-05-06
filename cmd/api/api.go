@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/dev-by-sjb/e-commerce-go-api/cmd/service/user"
+	"github.com/dev-by-sjb/e-commerce-go-api/service/user"
 	"github.com/go-chi/chi"
 )
 
