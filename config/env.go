@@ -17,7 +17,16 @@ type Config struct {
 var Envs = initConfig()
 
 func initConfig() *Config {
-	err := godotenv.Load("../.env")
+  var err error
+
+	fmt.Println("Loading envs...")
+
+	var envFiles = [2]string{"../.env", "./.env"}
+	for i, envFile := range envFiles{
+		err = godotenv.Load(envFile)
+		fmt.Printf("Loading env file %d: \"%s\"\n", i +1,envFiles[i])
+  }
+
 	if err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}

@@ -14,11 +14,15 @@ func NewHandler() *Handler {
 }
 
 func (h *Handler) RegisterRoutes(router *chi.Mux) {
-	router.HandleFunc("/register", h.handleRegister)
-	router.HandleFunc("/login", h.handleLogin)
+	router.Post("/register", h.handleRegister)
+	router.Post("/login", h.handleLogin)
 }
 
 func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
+	// get json data from payload and unmarshal json data
+	// validate json data
+	// check if user already exists
+	// create user
 
 }
 

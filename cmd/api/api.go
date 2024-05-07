@@ -39,7 +39,7 @@ func (s *APIServer) Start() error {
 
 	fmt.Printf("Server is listening on :%v .....\n\n", s.addr)
 
-	fmt.Println("Press Ctrl+C to stop the server")
+	fmt.Print("Press Ctrl+C to stop the server\n\n")
 
 	return server.ListenAndServe()
 }

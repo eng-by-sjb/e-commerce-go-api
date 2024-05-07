@@ -1,3 +1,4 @@
+.DS_Store
 .vscode
 .env 
 /bin
@@ -5,3 +6,5 @@
 Makefile
 e-commerce-api.session.sql
 mine.txt
+/tmp
+.air.toml

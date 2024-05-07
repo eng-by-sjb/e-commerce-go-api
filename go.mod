@@ -6,5 +6,7 @@ require (
 	github.com/go-chi/chi v1.5.5
 	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.10.9
-	golang.org/x/crypto v0.23.0
+	github.com/sirupsen/logrus v1.9.3
 )
+
+require golang.org/x/sys v0.20.0 // indirect
