@@ -15,9 +15,12 @@ type Config struct {
 	DBName     string
 }
 
-func NewPostgresStorage(cfg Config) (*sql.DB, error) {
+type PostgresStore struct {
+	db *sql.DB
+}
+
+func NewPostgresStorage(cfg Config) (*PostgresStore, error) {
 	var connString = fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s sslmode=disable", cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort, cfg.DBName)
-	// var connString = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.DBName)
 
 	db, err := sql.Open("postgres", connString)
 	if err != nil {
@@ -31,5 +34,7 @@ func NewPostgresStorage(cfg Config) (*sql.DB, error) {
 
 	fmt.Println("Connected to database successfully ✅👍 ...")
 
-	return db, nil
+	return &PostgresStore{
+		db: db,
+	}, nil
 }

@@ -1,20 +1,20 @@
 package api
 
 import (
-	"database/sql"
 	"fmt"
 	"net/http"
 
+	"github.com/dev-by-sjb/e-commerce-go-api/db"
 	"github.com/dev-by-sjb/e-commerce-go-api/service/user"
 	"github.com/go-chi/chi"
 )
 
 type APIServer struct {
 	addr string
-	db   *sql.DB
+	db   *db.PostgresStore
 }
 
-func NewAPIServer(addr string, db *sql.DB) *APIServer {
+func NewAPIServer(addr string, db *db.PostgresStore) *APIServer {
 	return &APIServer{
 		addr: addr,
 		db:   db,
