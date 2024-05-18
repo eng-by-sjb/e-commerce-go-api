@@ -1,16 +1,23 @@
 package user
 
 import (
+	"fmt"
 	"net/http"
 
+	"github.com/dev-by-sjb/e-commerce-go-api/types"
+	"github.com/dev-by-sjb/e-commerce-go-api/utils"
 	"github.com/go-chi/chi"
+	"github.com/go-playground/validator/v10"
 )
 
 type Handler struct {
+	store types.UserStore
 }
 
-func NewHandler() *Handler {
-	return &Handler{}
+func NewHandler(store types.UserStore) *Handler {
+	return &Handler{
+		store: store,
+	}
 }
 
 func (h *Handler) RegisterRoutes(router *chi.Mux) {
@@ -41,8 +48,28 @@ func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
 		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid payload: %v", errors))
 		return
 	}
-	// create user
 
+	// check if user already exists and check if email is already in use
+	user, err := h.store.GetUserByEmail(payload.Email)
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("email already in use"))
+		return
+	}
+
+	hashedPassword, err := utils.CreateHashedPassword(payload.Password)
+	if err != nil {
+		// todo write error to app logs
+		utils.WriteError(w, http.StatusInternalServerError, fmt.Errorf("something went wrong. try again later"))
+	}
+
+	// create user
+	h.store.CreateUser(&types.User{
+		FirstName: payload.FirstName,
+		LastName:  payload.LastName,
+		Email:     payload.Email,
+		Password:  hashedPassword,
+	})
+	utils.WriteJSON(w, http.StatusOK, user)
 }
 
 func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {

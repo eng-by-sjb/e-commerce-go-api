@@ -1,20 +1,21 @@
 package api
 
 import (
+	"database/sql"
 	"fmt"
+
 	"net/http"
 
-	"github.com/dev-by-sjb/e-commerce-go-api/db"
 	"github.com/dev-by-sjb/e-commerce-go-api/service/user"
 	"github.com/go-chi/chi"
 )
 
 type APIServer struct {
 	addr string
-	db   *db.PostgresStore
+	db   *sql.DB
 }
 
-func NewAPIServer(addr string, db *db.PostgresStore) *APIServer {
+func NewAPIServer(addr string, db *sql.DB) *APIServer {
 	return &APIServer{
 		addr: addr,
 		db:   db,
@@ -29,8 +30,9 @@ func (s *APIServer) Start() error {
 	router.Mount("/api/v1", v1Router) // create sub routing with prefix to handle api versioning
 
 	// Add user services that takes in the subrouter
-	var userService = user.NewHandler()
-	userService.RegisterRoutes(subrouter)
+	var userStore = user.NewStore(s.db)
+	var userHandler = user.NewHandler(userStore)
+	userHandler.RegisterRoutes(v1Router)
 
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%v", s.addr),
