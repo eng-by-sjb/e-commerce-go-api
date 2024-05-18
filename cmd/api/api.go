@@ -24,9 +24,9 @@ func NewAPIServer(addr string, db *db.PostgresStore) *APIServer {
 func (s *APIServer) Start() error {
 	var router *chi.Mux = chi.NewRouter()
 
-	var subrouter *chi.Mux = chi.NewRouter()
+	var v1Router *chi.Mux = chi.NewRouter()
 
-	router.Mount("/api/v1", subrouter) // create sub routing with prefix pat pattern
+	router.Mount("/api/v1", v1Router) // create sub routing with prefix to handle api versioning
 
 	// Add user services that takes in the subrouter
 	var userService = user.NewHandler()
