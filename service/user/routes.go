@@ -69,7 +69,7 @@ func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
 		Email:     payload.Email,
 		Password:  hashedPassword,
 	})
-	utils.WriteJSON(w, http.StatusOK, user)
+	utils.WriteJSON(w, http.StatusCreated, user)
 }
 
 func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {

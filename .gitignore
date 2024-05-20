@@ -3,7 +3,6 @@
 .env 
 /bin
 /vendors
-Makefile
 e-commerce-api.session.sql
 mine.txt
 /tmp
